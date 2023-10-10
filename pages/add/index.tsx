@@ -59,13 +59,13 @@ const AddStaffPage: React.FC = () => {
       <Nav />
       <div className="flex-grow flex justify-center items-center">
         <form
-          className="bg-white p-4 rounded-lg shadow-md"
+          className="bg-white p-4 rounded-lg shadow-md w-96"
           onSubmit={handleSubmit}
         >
           <h2></h2>
           <div className="mb-4">
             <label htmlFor="name" className="block text-gray-700 font-bold">
-              Name:
+              Name*:
             </label>
             <input
               type="text"
@@ -73,12 +73,13 @@ const AddStaffPage: React.FC = () => {
               value={name}
               onChange={handleNameChange}
               required
+              placeholder="Please enter name"
               className="border border-gray-300 rounded-md p-2 w-full"
             />
           </div>
           <div className="mb-4">
             <label htmlFor="role" className="block text-gray-700 font-bold">
-              Role:
+              Role*:
             </label>
             <input
               type="text"
@@ -86,12 +87,13 @@ const AddStaffPage: React.FC = () => {
               value={role}
               onChange={handleRoleChange}
               required
+              placeholder="Please enter role"
               className="border border-gray-300 rounded-md p-2 w-full"
             />
           </div>
           <div className="mb-4">
             <label htmlFor="supervisor" className="block text-gray-700 font-bold">
-              Reports To:
+              Reports To*:
             </label>
             <select
               id="supervisor"
