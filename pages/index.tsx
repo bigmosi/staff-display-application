@@ -10,6 +10,8 @@ import axios from 'axios';
 
 export default function Home() {
   const [staffData, setStaffData] = useState([]);
+  console.log((staffData));
+  
 
   useEffect(() => {
     axios.get('http://localhost:8080/api/staff')
