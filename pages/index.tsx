@@ -27,7 +27,7 @@ export default function Home() {
     <Layout>
      <main className="flex flex-col items-center bg-primary mt-28">
       <h1 className="text-2xl font-bold mb-4">Company Hierarchy</h1>
-      <Hierarchy staff={staffData} />
+      <Hierarchy staff={staffData} setStaffData={setStaffData} />
     </main>
     </Layout>
   );

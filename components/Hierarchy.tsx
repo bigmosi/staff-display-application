@@ -9,7 +9,7 @@ interface HierarchyProps {
   staff: StaffMemberProps[];
 }
 
-const Hierarchy: React.FC<HierarchyProps> = ({ staff }) => {
+const Hierarchy: React.FC<HierarchyProps> = ({ staff, setStaffData }) => {
   console.log(staff);
   const router = useRouter();
   const { _id } = router.query;
@@ -23,18 +23,18 @@ const Hierarchy: React.FC<HierarchyProps> = ({ staff }) => {
       console.log(`Staff member with ID ${_id} deleted successfully`);
 
       // Update the state to remove the deleted staff member
-      // setStaffList((prevStaffList) =>
-      //   prevStaffList.filter((staffMember) => staffMember._id !== _id)
-      // );
+      setStaffData((prevStaffList: any) =>
+        prevStaffList.filter((staffMember:any) => staffMember._id !== _id)
+      );
     } catch (error) {
       console.error('Error deleting staff member', error);
     }
   };
 
-  const handleUpdate = async (id: number, updatedStaffMember: StaffMemberProps) => {
+  const handleUpdate = async (_id: string, updatedStaffMember: StaffMemberProps) => {
     try {
-      await axios.put(`/api/update-staff/${id}`, updatedStaffMember);
-      console.log(`Staff member with ID ${id} updated successfully`);
+      await axios.put(`http://localhost:8080/api/update/${_id}`, updatedStaffMember);
+      console.log(`Staff member with ID ${_id} updated successfully`);
     } catch (error) {
       console.error('Error updating staff member', error);
     }
@@ -49,7 +49,7 @@ const Hierarchy: React.FC<HierarchyProps> = ({ staff }) => {
               key={index}
               {...member}
               onDelete={() => handleDelete(member._id)}
-              onUpdate={(updatedStaff: any) => handleUpdate(member.id, updatedStaff)}
+              onUpdate={(updatedStaff: any) => handleUpdate(member._id, updatedStaff)}
             />
           ))}
         </div>
