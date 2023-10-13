@@ -3,19 +3,20 @@ import React, { useState } from 'react';
 import Nav from '@/components/Nav';
 import axios from 'axios';
 import '/globals.css';
+import { DEV_DB_URL } from "../../config/config";
 
 interface StaffMember {
   id: number;
   name: string;
   role: string;
-  reportsTo: number | null;
+  reportsTo: string | null;
 }
 
 const AddStaffPage: React.FC = () => {
   const [name, setName] = useState('');
   const [role, setRole] = useState('');
   const [successMessage, setSuccessMessage] = useState("");
-  const [supervisorId, setSupervisorId] = useState<number | null>(null);
+  const [supervisorName, setSupervisorName] = useState<string | null>(null);
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
@@ -26,20 +27,21 @@ const AddStaffPage: React.FC = () => {
   };
 
   const handleSupervisorChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSupervisorId(Number(e.target.value));
+    const selectedName = e.target.value;
+    setSupervisorName(selectedName);
   };
+  
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
-    const newStaffMember: StaffMember = {
-      id: Date.now(),
+  
+    const newStaffMember: Omit<StaffMember, 'id'> = {
       name,
       role,
-      reportsTo: supervisorId,
+      reportsTo: supervisorName,
     };
-
-    axios.post('http://localhost:8080/api/add', newStaffMember)
+  
+    axios.post(`${DEV_DB_URL}api/add`, newStaffMember)
       .then((response) => {
         setSuccessMessage('Staff member added successfully');
         console.log('Staff member added successfully', response.data);
@@ -47,12 +49,12 @@ const AddStaffPage: React.FC = () => {
       .catch((error) => {
         console.error('Error adding staff member', error);
       });
-
+  
     // Clear the form fields after submission
     setName('');
     setRole('');
-    setSupervisorId(null);
-  };
+    setSupervisorName(null);
+  };  
 
   return (
     <div className="flex flex-col h-screen bg-primary">
@@ -97,15 +99,18 @@ const AddStaffPage: React.FC = () => {
             </label>
             <select
               id="supervisor"
-              value={supervisorId || ''}
+              value={supervisorName || ''}
               onChange={handleSupervisorChange}
               className="border border-gray-300 rounded-md p-2 w-full"
             >
               <option value="">None</option>
-              {/* You can map over your existing staff members to populate this list */}
-              <option value={1}>John Doe</option>
-              <option value={2}>Jane Smith</option>
-              {/* Add more options as needed */}
+              <option value="John Doe">John Doe</option>
+              <option value="Jane Smith">Jane Smith</option>
+              <option value="ane Smith">Jane Smith</option>
+              <option value="David Jones">David Jones</option>
+              <option value="Robert Brown">Robert Brown</option>
+              <option value="William Davis">William Davis</option>
+
             </select>
           </div>
           <div>

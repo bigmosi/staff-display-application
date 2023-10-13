@@ -4,9 +4,13 @@ import axios from 'axios';
 import { StaffMemberProps } from './types';
 import StaffMember from './StaffMember';
 import { useRouter } from 'next/router';
+import { DEV_DB_URL } from "../config/config";
+import  hasCycle  from '../utils/hierarchyUtils';
+
 
 interface HierarchyProps {
   staff: StaffMemberProps[];
+  setStaffData: (staffData: StaffMemberProps[]) => void;
 }
 
 const Hierarchy: React.FC<HierarchyProps> = ({ staff, setStaffData }) => {
@@ -19,12 +23,12 @@ const Hierarchy: React.FC<HierarchyProps> = ({ staff, setStaffData }) => {
   const handleDelete = async (_id: number) => {
     console.log('Deleting staff member with ID:', _id);
     try {
-      await axios.delete(`http://localhost:8080/api/delete/${_id}`);
+      await axios.delete(`${DEV_DB_URL}api/delete/${_id}`);
       console.log(`Staff member with ID ${_id} deleted successfully`);
 
       // Update the state to remove the deleted staff member
-      setStaffData((prevStaffList: any) =>
-        prevStaffList.filter((staffMember:any) => staffMember._id !== _id)
+      setStaffData((prevStaffList) =>
+        prevStaffList.filter((staffMember) => staffMember._id !== _id)
       );
     } catch (error) {
       console.error('Error deleting staff member', error);
@@ -33,7 +37,13 @@ const Hierarchy: React.FC<HierarchyProps> = ({ staff, setStaffData }) => {
 
   const handleUpdate = async (_id: string, updatedStaffMember: StaffMemberProps) => {
     try {
-      await axios.put(`http://localhost:8080/api/update/${_id}`, updatedStaffMember);
+      // Check for cycles before updating
+      if (hasCycle(staff, _id, updatedStaffMember.reportsTo)) {
+        console.error('Error: Updating staff member would create a cycle.');
+        return;
+      }
+  
+      await axios.put(`${DEV_DB_URL}api/update/${_id}`, updatedStaffMember);
       console.log(`Staff member with ID ${_id} updated successfully`);
     } catch (error) {
       console.error('Error updating staff member', error);
