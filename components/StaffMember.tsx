@@ -6,7 +6,7 @@ interface StaffMemberProps {
   role: string;
   reportsTo: string;
   onDelete?: () => void;
-  onUpdate?: () => void;
+  onUpdate?: (updatedData: any) => void;
 }
 
 const StaffMember: React.FC<StaffMemberProps> = ({

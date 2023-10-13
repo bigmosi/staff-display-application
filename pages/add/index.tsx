@@ -9,7 +9,7 @@ interface StaffMember {
   id: number;
   name: string;
   role: string;
-  reportsTo: number | null;
+  reportsTo: string | null;
 }
 
 const AddStaffPage: React.FC = () => {
@@ -106,6 +106,11 @@ const AddStaffPage: React.FC = () => {
               <option value="">None</option>
               <option value="John Doe">John Doe</option>
               <option value="Jane Smith">Jane Smith</option>
+              <option value="ane Smith">Jane Smith</option>
+              <option value="David Jones">David Jones</option>
+              <option value="Robert Brown">Robert Brown</option>
+              <option value="William Davis">William Davis</option>
+
             </select>
           </div>
           <div>
