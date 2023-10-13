@@ -6,7 +6,7 @@ import Layout from '@/components/layout';
 import React, { useEffect, useState } from 'react';
 import Hierarchy from '@/components/Hierarchy';
 import axios from 'axios';
-
+import { DEV_DB_URL } from "../config/config";
 
 export default function Home() {
   const [staffData, setStaffData] = useState([]);
@@ -14,7 +14,7 @@ export default function Home() {
   
 
   useEffect(() => {
-    axios.get('http://localhost:8080/api/staff')
+    axios.get(`${DEV_DB_URL}api/staff`)
       .then((response) => {
         setStaffData(response.data);
         console.log(response.data);
